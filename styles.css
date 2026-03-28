@@ -1,0 +1,527 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fb;
+    color: #333;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background: #1e293b;
+    color: white;
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+/* LAYOUT */
+.layout {
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #111827;
+    min-height: 100vh;   
+    position: sticky;    
+    top: 0;             
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #9ca3af;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar .active {
+    background: #2563eb;
+    color: white;
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    padding: 25px;
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.cards.small .card {
+    font-size: 0.9rem;
+}
+
+.card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+}
+
+.card p {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.highlight {
+    background: #2563eb;
+    color: white;
+}
+
+/* GRAFICOS */
+.graficos {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.grafico-box {
+    flex: 1;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* BOTONES */
+.acciones {
+    display: flex;
+    flex-direction: column; /* NUEVO */
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.ingreso { background: #16a34a; }
+.gasto { background: #dc2626; }
+.objetivo { background: #9333ea; }
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* GRID */
+.grid {
+    display: flex;
+    gap: 20px;
+}
+
+.box {
+    flex: 1;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* CHAT */
+.chat {
+    margin-top: 30px;
+}
+
+.chat h3 {
+    margin-bottom: 10px;
+}
+
+.chat textarea {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    width: 320px;
+    border-radius: 12px;
+    margin: 10% auto;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.cancel {
+    background: gray;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 15px;
+    color: #d8d8d8;
+    background-color: #3e3e3e;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .cards,
+    .graficos,
+    .grid {
+        flex-direction: column;
+    }
+}
+
+/* INGRESOS */
+
+.ingreso-card {
+    border-left: 5px solid #16a34a;
+}
+
+/* FILTROS */
+.filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtros input,
+.filtros select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* TABLA */
+.tabla-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th {
+    text-align: left;
+    padding: 10px;
+    color: #666;
+}
+
+.tabla td {
+    padding: 12px;
+    border-top: 1px solid #eee;
+}
+
+.tabla tr:hover {
+    background: #f9fafb;
+}
+
+/* COLORES */
+.positivo {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+/* BOTONES ACCIONES */
+.edit, .delete {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.delete {
+    color: red;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.caja {
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* INPUT */
+.input {
+    background: #2c2c3e;
+    color: #fff;
+    border: none;
+    resize: none;
+    height: 80px;
+}
+
+/* RESPUESTA IA */
+.ia {
+    background: #1e1e2f;
+    color: #fff;
+    min-height: 60px;
+}
+
+/* NEGRITAS */
+.caja strong {
+    color: #00d4ff;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* TITULO */
+.titulo {
+    margin-bottom: 15px;
+}
+
+/* BLOQUES */
+.bloque {
+    margin-bottom: 15px;
+}
+
+/* LABEL */
+.label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* CAJAS */
+.caja {
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* INPUT */
+.input {
+    background: #f1f3f5;
+    border: 1px solid #ddd;
+    resize: none;
+    height: 80px;
+}
+
+/* RESPUESTA */
+.respuesta {
+    background: #e9ecef;
+    border: 1px solid #ddd;
+    min-height: 60px;
+}
+
+/* BOTON */
+.btn-enviar {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #2c2c3e;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.btn-enviar:hover {
+    opacity: 0.9;
+}
+
+/* NEGRITAS */
+.caja strong {
+    color: #0077ff;
+}
+
+/* CONTENEDOR */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TITULO */
+.titulo {
+    margin-bottom: 10px;
+}
+
+/* CHAT */
+.chat {
+    background: #f1f3f5;
+    border-radius: 10px;
+    padding: 10px;
+    height: 350px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* MENSAJES */
+.mensaje {
+    padding: 10px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* USUARIO */
+.usuario {
+    background: #dbeafe;
+    align-self: flex-end;
+}
+
+/* IA */
+.ia {
+    background: #e9ecef;
+    align-self: flex-start;
+}
+
+/* INPUT + BOTON */
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* INPUT */
+.input-chat {
+    flex: 1;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    padding: 10px;
+    font-size: 14px;
+    resize: none;
+    height: 50px;
+    background: #f8f9fa;
+}
+
+/* BOTON */
+.btn-enviar {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    background: #2c2c3e;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-enviar:hover {
+    opacity: 0.9;
+}
+
+/* NEGRITAS */
+.mensaje strong {
+    color: #0077ff;
+}
+
+/* CONTENEDOR INPUT + BOTON */
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: stretch; /* 👈 clave para igualar altura */
+}
+
+/* INPUT */
+.input-chat {
+    width: 70%; /* 👈 proporción */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 14px;
+    font-family: inherit; /* 👈 misma fuente */
+    resize: none;
+    min-height: 50px;
+    background: #f8f9fa;
+    box-sizing: border-box;
+}
+
+/* PLACEHOLDER (MISMA FUENTE Y TAMAÑO) */
+.input-chat::placeholder {
+    font-family: inherit;
+    font-size: 14px;
+    color: #888;
+}
+
+/* BOTON */
+.btn-enviar {
+    width: 30%; /* 👈 proporción */
+    border-radius: 10px;
+    border: none;
+    background: #2c2c3e;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+
+    display: flex;            /* 👇 centra el texto */
+    align-items: center;
+    justify-content: center;
+
+    height: auto;             /* 👈 se adapta */
+}
+
+/* MENSAJE IA */
+.ia {
+    background: #f1f3f5; /* gris claro (no blanco) */
+    color: #000;         /* 👈 texto negro */
+    align-self: flex-start;
+}
+
+/* TEXTO GENERAL DENTRO DE MENSAJES */
+.mensaje {
+    color: #000; /* 👈 asegura negro por defecto */
+}
+
+/* NEGRITAS (dejamos azul como querías) */
+.mensaje strong {
+    color: #0077ff;
+}
+
+.ia {
+    background: #eef2f5;
+}
