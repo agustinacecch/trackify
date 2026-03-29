@@ -1,121 +1,88 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+<!DOCTYPE html>
+<html lang="es">
 
-header("Content-Type: application/json");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>IA - Trackify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-// 1. Leer datos
-$data = json_decode(file_get_contents("php://input"), true);
+<!-- OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="cerrarMenu()"></div>
 
-// 2. Obtener pregunta
-$pregunta = isset($data["pregunta"]) ? $data["pregunta"] : "";
+<body>
 
-// 3. Leer .env
-$env = parse_ini_file(__DIR__ . "/.env");
+    <header class="navbar">
+        <div class="logo">💰 Trackify</div>
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="user">Hola, <span id="usuarioNombre">Usuario</span></div>
+    </header>
 
-if (!$env) {
-    echo json_encode(["respuesta" => "No se pudo leer .env"]);
-    exit;
-}
+    <div class="layout">
 
-// 4. API KEY
-$apiKey = isset($env["GROQ_API_KEY"]) ? $env["GROQ_API_KEY"] : "";
+        <aside class="sidebar" id="sidebar">
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="ingresos.html">Ingresos</a>
+                <a class="active">IA</a>
+                <a href="gastos.html">Gastos</a>
+                <a href="categorias.html">Categorías</a>
+                <a href="objetivos.html">Objetivos</a>
+                <a href="perfil.html">Perfil</a>
+            </nav>
+        </aside>
 
-if (!$apiKey) {
-    echo json_encode(["respuesta" => "Falta la API KEY"]);
-    exit;
-}
+        <main class="content">
 
-// 5. Endpoint
-$url = "https://api.groq.com/openai/v1/chat/completions";
+            <h2>🤖 Preguntale a la IA</h2>
 
-// 6. Modelo
-$model = "llama-3.1-8b-instant";
+            <div class="chat-container">
+                <div id="chat" class="chat"></div>
+                <div class="input-container">
+                    <textarea id="pregunta" class="input-chat"
+                        placeholder="Escribí tu consulta financiera..."></textarea>
+                    <button class="btn-enviar" onclick="preguntarIA()">Enviar</button>
+                </div>
+            </div>
 
-// 7. Body
-$body = [
-    "model" => $model,
-    "messages" => [
-        [
-            "role" => "system",
-            "content" => "Sos un asesor financiero dentro de Trackify.
+        </main>
+    </div>
 
-            Reglas:
-            - Respondé SIEMPRE de forma corta y concisa (máximo 3 líneas).
-            - No saludes.
-            - No des introducciones ni cierres.
-            - Andá directo al punto.
-            - Usá lenguaje simple.
-            - Si das consejos, que sean como máximo 3.
-            - Podés usar **negrita** para resaltar ideas clave.
+    <footer class="footer">
+        <p>Trackify © 2026</p>
+    </footer>
 
-            Ejemplo:
+    <script src="js/ia.js?v=2"></script>
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggle = document.getElementById('menuToggle');
+        const overlay = document.getElementById('sidebarOverlay');
 
-            Reducí gastos innecesarios.
-            Definí un monto fijo de ahorro.
-            La clave es la **constancia**.
+        function toggleMenu() {
+            sidebar.classList.contains('open') ? cerrarMenu() : abrirMenu();
+        }
+        function abrirMenu() {
+            sidebar.classList.add('open');
+            toggle.classList.add('open');
+            overlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+        function cerrarMenu() {
+            sidebar.classList.remove('open');
+            toggle.classList.remove('open');
+            overlay.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarMenu(); });
+        document.querySelectorAll('.sidebar a').forEach(l => l.addEventListener('click', () => { if (window.innerWidth <= 900) cerrarMenu(); }));
+    </script>
 
-            Nunca des respuestas largas."
-        ],
-        [
-            "role" => "user",
-            "content" => $pregunta
-        ]
-    ]
-];
+</body>
 
-// 8. cURL
-$ch = curl_init($url);
-
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Content-Type: application/json",
-    "Authorization: Bearer " . $apiKey
-]);
-
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-
-// fixes importantes
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-$response = curl_exec($ch);
-
-// Error cURL
-if (curl_errno($ch)) {
-    echo json_encode([
-        "respuesta" => "Error cURL: " . curl_error($ch)
-    ]);
-    exit;
-}
-
-// Código HTTP
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-curl_close($ch);
-
-// Error HTTP
-if ($httpCode !== 200) {
-    echo json_encode([
-        "respuesta" => "Error HTTP: " . $httpCode . " | " . $response
-    ]);
-    exit;
-}
-
-// Parsear respuesta
-$result = json_decode($response, true);
-
-// Extraer texto
-$respuesta = isset($result["choices"][0]["message"]["content"]) 
-    ? $result["choices"][0]["message"]["content"] 
-    : "Sin respuesta";
-
-// Responder al frontend
-echo json_encode([
-    "respuesta" => $respuesta
-]);
+</html>
